@@ -1,0 +1,14 @@
+{
+  "name": "sample-userapp",
+  "version": "1.0.0",
+  "description": "A Simple nodejs app that generates different user and userid for demo purpose",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ankur-anand",
+  "license": "ISC",
+  "dependencies": {
+    "winston": "^3.2.1"
+  }
+}

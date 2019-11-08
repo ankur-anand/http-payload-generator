@@ -4,6 +4,7 @@ const names = require("./getnames");
 
 const moment = require("moment");
 const uuid = require("uuid/v4");
+const rkPayload = require("./return-payload");
 
 const authDB = {
   username: "ankur",
@@ -34,6 +35,32 @@ router.route("/username").get((req, res) => {
     }
   };
   res.status(200).json({ data: payload });
+});
+
+const funcDelay = function() {
+  return new Promise((resolve, reject) => {
+    // reslove after one second
+    setTimeout(() => {
+      resolve();
+    }, 980);
+  });
+};
+
+router.route("/username").post(async (req, res) => {
+  const payload = {
+    "event-id": uuid(),
+    "event-time": moment().format(),
+    data: {
+      user: {
+        username: names.generate()
+      },
+      "100kbPayload": rkPayload
+    }
+  };
+
+  // wait one second
+  await funcDelay();
+  return res.status(200).json({ data: payload });
 });
 
 async function basicAuth(req, res, next) {

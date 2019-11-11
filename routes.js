@@ -24,19 +24,6 @@ router.route("/auth/username").get(basicAuth, (req, res) => {
   res.status(200).json({ data: payload });
 });
 
-router.route("/username").get((req, res) => {
-  const payload = {
-    "event-id": uuid(),
-    "event-time": moment().format(),
-    data: {
-      user: {
-        username: names.generate()
-      }
-    }
-  };
-  res.status(200).json({ data: payload });
-});
-
 const funcDelay = function() {
   return new Promise((resolve, reject) => {
     // reslove after one second
@@ -45,6 +32,23 @@ const funcDelay = function() {
     }, 980);
   });
 };
+
+router.route("/username").get(async (req, res) => {
+  const payload = {
+    "event-id": uuid(),
+    "event-time": moment().format(),
+    data: {
+      user: {
+        username: names.generate()
+      },
+      "100kbPayload": rkPayload
+    }
+  };
+
+  // wait one second
+  await funcDelay();
+  return res.status(200).json({ data: payload });
+});
 
 router.route("/username").post(async (req, res) => {
   const payload = {

@@ -24,14 +24,39 @@ router.route("/auth/username").get(basicAuth, (req, res) => {
   res.status(200).json({ data: payload });
 });
 
-const funcDelay = function() {
+const funcDelay = function(sec) {
   return new Promise((resolve, reject) => {
     // reslove after one second
     setTimeout(() => {
       resolve();
-    }, 980);
+    }, sec);
   });
 };
+
+router.route("/delayresponse/:duration").get(async (req, res) => {
+  const durationDelay = req.params.duration;
+  const msOrSec = durationDelay.split("-");
+  // No Check of duration is proper of NAN is done.
+  let duration = msOrSec[0];
+  if (msOrSec[1] === "sec" || msOrSec[1] === "s") {
+    duration = msOrSec[0] * 1000;
+  }
+
+  const payload = {
+    "event-id": uuid(),
+    "event-time": moment().format(),
+    data: {
+      user: {
+        username: names.generate()
+      },
+      "100kbPayload": rkPayload
+    }
+  };
+
+  // wait one second
+  await funcDelay(duration);
+  return res.status(200).json({ data: payload });
+});
 
 router.route("/username").get(async (req, res) => {
   const payload = {
@@ -46,7 +71,7 @@ router.route("/username").get(async (req, res) => {
   };
 
   // wait one second
-  await funcDelay();
+  await funcDelay(980);
   return res.status(200).json({ data: payload });
 });
 
@@ -63,7 +88,7 @@ router.route("/username").post(async (req, res) => {
   };
 
   // wait one second
-  await funcDelay();
+  await funcDelay(980);
   return res.status(200).json({ data: payload });
 });
 

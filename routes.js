@@ -11,7 +11,7 @@ const authDB = {
   password: "testpassword"
 };
 
-router.route("/auth/username").get(basicAuth, (req, res) => {
+router.route("/random/auth/username").get(basicAuth, (req, res) => {
   const payload = {
     "event-id": uuid(),
     "event-time": moment().format(),
@@ -24,6 +24,19 @@ router.route("/auth/username").get(basicAuth, (req, res) => {
   res.status(200).json({ data: payload });
 });
 
+router.route("/random/username").get(async (req, res) => {
+  const payload = {
+    "event-id": uuid(),
+    "event-time": moment().format(),
+    data: {
+      user: {
+        username: names.generate()
+      }
+    }
+  };
+  return res.status(200).json({ data: payload });
+});
+
 const funcDelay = function(sec) {
   return new Promise((resolve, reject) => {
     // reslove after one second
@@ -33,7 +46,7 @@ const funcDelay = function(sec) {
   });
 };
 
-router.route("/delayresponse/:duration").get(async (req, res) => {
+router.route("/delayedresponse/:duration").get(async (req, res) => {
   const durationDelay = req.params.duration;
   const msOrSec = durationDelay.split("-");
   // No Check of duration is proper of NAN is done.
@@ -58,7 +71,7 @@ router.route("/delayresponse/:duration").get(async (req, res) => {
   return res.status(200).json({ data: payload });
 });
 
-router.route("/username").get(async (req, res) => {
+router.route("/hunderedkb").get(async (req, res) => {
   const payload = {
     "event-id": uuid(),
     "event-time": moment().format(),
@@ -75,7 +88,7 @@ router.route("/username").get(async (req, res) => {
   return res.status(200).json({ data: payload });
 });
 
-router.route("/username").post(async (req, res) => {
+router.route("/hunderedkb").post(async (req, res) => {
   const payload = {
     "event-id": uuid(),
     "event-time": moment().format(),

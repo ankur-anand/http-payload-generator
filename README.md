@@ -1,4 +1,4 @@
-## sample-userapp
+## sample-payload-generator
 A Sample User Service in Node.js that generates random payload upon request.
 
 ### API
